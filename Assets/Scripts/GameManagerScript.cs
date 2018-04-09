@@ -126,7 +126,7 @@ public class GameManagerScript : MonoBehaviour {
                     else
                     {
                         //check each branch in the log that would be directly below our beehive
-                        foreach (GameObject branch in Logs[Logs.Count - 1].GetComponent<LogScript>().branches)
+                        foreach (GameObject branch in Logs[Logs.Count - 2].GetComponent<LogScript>().branches)
                         {
                             if (ifHive.branch.GetComponent<BranchScript>().rightSide == branch.GetComponent<BranchScript>().rightSide)
                             {
@@ -135,9 +135,9 @@ public class GameManagerScript : MonoBehaviour {
                         }
 
                         //if the log below our beehive is rotten, check the one below that too
-                        if (Logs[Logs.Count - 1].GetComponent<LogScript>().rotten)
+                        if (Logs[Logs.Count - 2].GetComponent<LogScript>().rotten || Logs[Logs.Count - 1].GetComponent<LogScript>().rotten)
                         {
-                            foreach (GameObject branch in Logs[Logs.Count - 2].GetComponent<LogScript>().branches)
+                            foreach (GameObject branch in Logs[Logs.Count - 3].GetComponent<LogScript>().branches)
                             {
                                 if (ifHive.branch.GetComponent<BranchScript>().rightSide == branch.GetComponent<BranchScript>().rightSide)
                                 {

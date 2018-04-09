@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   strong: 0
+  type: 5
   branches:
   - {fileID: 1338364408422034}
 --- !u!114 &114540082156537930

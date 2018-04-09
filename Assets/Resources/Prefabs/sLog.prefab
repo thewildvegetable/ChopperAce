@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   strong: 1
+  type: 10
   branches: []
 --- !u!222 &222643857054275702
 CanvasRenderer:

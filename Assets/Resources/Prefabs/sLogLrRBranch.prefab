@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   strong: 1
+  type: 12
   branches:
   - {fileID: 1469995080676284}
   - {fileID: 1019076830561602}

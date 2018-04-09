@@ -42,6 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 1
   strong: 0
+  type: 9
   branches: []
 --- !u!114 &114821221220315822
 MonoBehaviour:

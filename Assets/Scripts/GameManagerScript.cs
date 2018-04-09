@@ -107,7 +107,7 @@ public class GameManagerScript : MonoBehaviour {
             bool logFine = true;
 
             //TODO: currently all are equally likely, should implement some kind of scaling later
-            int PrefabVal = (int)Mathf.Ceil(Random.value * 18 - 1);
+            int PrefabVal = (int)Mathf.Ceil(Random.value * logPrefabs.Length - 1);
 
             GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
 
@@ -128,9 +128,12 @@ public class GameManagerScript : MonoBehaviour {
                         //check each branch in the log that would be directly below our beehive
                         foreach (GameObject branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
                         {
-                            if (ifHive.branch.GetComponent<BranchScript>().rightSide == branch.GetComponent<BranchScript>().rightSide)
+                            if (!branch.GetComponent<BranchScript>().rotten)
                             {
-                                logFine = false;
+                                if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
+                                {
+                                    logFine = false;
+                                }
                             }
                         }
 
@@ -139,9 +142,12 @@ public class GameManagerScript : MonoBehaviour {
                         {
                             foreach (GameObject branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
                             {
-                                if (ifHive.branch.GetComponent<BranchScript>().rightSide == branch.GetComponent<BranchScript>().rightSide)
+                                if (!branch.GetComponent<BranchScript>().rotten)
                                 {
-                                    logFine = false;
+                                    if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
+                                    {
+                                        logFine = false;
+                                    }
                                 }
                             }
                         }

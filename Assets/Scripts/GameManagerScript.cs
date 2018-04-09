@@ -36,7 +36,7 @@ public class GameManagerScript : MonoBehaviour {
     private bool movingTree = false;
 
     //the logs
-    private List<GameObject> Logs;
+    private List<GameObject> logs;
 
     //log resources
     private Object[] logPrefabs;

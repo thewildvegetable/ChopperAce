@@ -92,13 +92,13 @@ public class GameManagerScript : MonoBehaviour {
 	}
 
     //called when player swings axe
-    void swingAxe()
+    public void SwingAxe()
     {
-        StartCoroutine(takeBottom());
+        StartCoroutine(TakeBottom());
     }
 
     //fill up tree and stored memory
-    void refill()
+    void Refill()
     {
         int initCount = Logs.Count;
 
@@ -185,7 +185,7 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     //pop bottom log from tree
-    private IEnumerator takeBottom()
+    private IEnumerator TakeBottom()
     {
         movingTree = true;
 
@@ -222,7 +222,7 @@ public class GameManagerScript : MonoBehaviour {
         //repeat if log is rotten
         if(Logs[0].GetComponent<LogScript>().rotten)
         {
-            StartCoroutine(takeBottom());
+            StartCoroutine(TakeBottom());
         }
         //if not rotten, reset scores and refill the queue
         else
@@ -241,7 +241,7 @@ public class GameManagerScript : MonoBehaviour {
 
             movingTree = false;
 
-            refill();
+            Refill();
         }
     }
 

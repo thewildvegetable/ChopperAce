@@ -6,6 +6,7 @@ public class ChopButtonScript : MonoBehaviour {
 
     public bool rightSide;      //what side the player goes to on click. false = left, true = right
     public GameObject player;
+    public GameManagerScript gameManager;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,7 @@ public class ChopButtonScript : MonoBehaviour {
         //set the player's side
         player.GetComponent<PlayerScript>().rightSide = this.rightSide;
 
-        //call gameManager's OnChop method TODO
+        //call gameManager's OnChop method
+        gameManager.SwingAxe();
     }
 }

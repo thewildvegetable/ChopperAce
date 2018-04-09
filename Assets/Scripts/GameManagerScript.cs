@@ -51,7 +51,7 @@ public class GameManagerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //create logs
-        Logs = new List<GameObject>()
+        logs = new List<GameObject>()
         {
             Capacity = LOG_CAPACITY
         };
@@ -100,9 +100,9 @@ public class GameManagerScript : MonoBehaviour {
     //fill up tree and stored memory
     void Refill()
     {
-        int initCount = Logs.Count;
+        int initCount = logs.Count;
 
-        for (int i = 0; i < Logs.Capacity - initCount; i++)
+        for (int i = 0; i < logs.Capacity - initCount; i++)
         {
             bool logFine = true;
 
@@ -111,14 +111,14 @@ public class GameManagerScript : MonoBehaviour {
 
             GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
 
-            if(Logs.Count > 0)
+            if(logs.Count > 0)
             {
                 //validate beehive
                 BeeHiveScript ifHive = newLog.GetComponentInChildren<BeeHiveScript>();
                 if(ifHive != null)
                 {
                     //dont' bother if we have less than 2 logs total
-                    if (Logs.Count < 2)
+                    if (logs.Count < 2)
                     {
                         logFine = false;
                     }
@@ -126,7 +126,7 @@ public class GameManagerScript : MonoBehaviour {
                     else
                     {
                         //check each branch in the log that would be directly below our beehive
-                        foreach (GameObject branch in Logs[Logs.Count - 2].GetComponent<LogScript>().branches)
+                        foreach (GameObject branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
                         {
                             if (ifHive.branch.GetComponent<BranchScript>().rightSide == branch.GetComponent<BranchScript>().rightSide)
                             {
@@ -135,9 +135,9 @@ public class GameManagerScript : MonoBehaviour {
                         }
 
                         //if the log below our beehive is rotten, check the one below that too
-                        if (Logs[Logs.Count - 2].GetComponent<LogScript>().rotten || Logs[Logs.Count - 1].GetComponent<LogScript>().rotten)
+                        if (logs[logs.Count - 2].GetComponent<LogScript>().rotten || logs[logs.Count - 1].GetComponent<LogScript>().rotten)
                         {
-                            foreach (GameObject branch in Logs[Logs.Count - 3].GetComponent<LogScript>().branches)
+                            foreach (GameObject branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
                             {
                                 if (ifHive.branch.GetComponent<BranchScript>().rightSide == branch.GetComponent<BranchScript>().rightSide)
                                 {
@@ -149,7 +149,7 @@ public class GameManagerScript : MonoBehaviour {
                 }
 
                 //no more than 1 rotten log in a row
-                if(newLog.GetComponent<LogScript>().rotten && Logs[Logs.Count-1].GetComponent<LogScript>().rotten)
+                if(newLog.GetComponent<LogScript>().rotten && logs[logs.Count-1].GetComponent<LogScript>().rotten)
                 {
                     logFine = false;
                 }
@@ -159,21 +159,21 @@ public class GameManagerScript : MonoBehaviour {
             if(logFine)
             {
                 //add new log
-                Logs.Add(newLog);
+                logs.Add(newLog);
                 //for the first bunch add to displayed panel
                 if(i + initCount < SHOWN_LOGS)
                 {
-                    Logs[i + initCount].transform.SetParent(curTree.transform);
+                    logs[i + initCount].transform.SetParent(curTree.transform);
                 }
 
                 //after append to waiting panel.
                 else
                 {
-                    Logs[i + initCount].transform.SetParent(waitingTree.transform);
+                    logs[i + initCount].transform.SetParent(waitingTree.transform);
                 }
 
                 //set local transform to preempt scaling issues
-                Logs[i + initCount].transform.localScale = Vector3.one;
+                logs[i + initCount].transform.localScale = Vector3.one;
             }
 
             //decrement i to do the loop again
@@ -190,7 +190,7 @@ public class GameManagerScript : MonoBehaviour {
         movingTree = true;
 
         //check for branches
-        foreach (GameObject branch in Logs[0].GetComponent<LogScript>().branches)
+        foreach (GameObject branch in logs[0].GetComponent<LogScript>().branches)
         {
             //if branches are on the same side, kill
             if (branch.GetComponent<BranchScript>().rightSide == player.GetComponent<PlayerScript>().rightSide && !branch.GetComponent<BranchScript>().rotten)
@@ -199,7 +199,7 @@ public class GameManagerScript : MonoBehaviour {
             }
         }
 
-        BeeHiveScript ifHive = Logs[1].GetComponentInChildren<BeeHiveScript>();
+        BeeHiveScript ifHive = logs[1].GetComponentInChildren<BeeHiveScript>();
 
         //check for hive, then validate for hive
         if (ifHive != null)
@@ -212,22 +212,22 @@ public class GameManagerScript : MonoBehaviour {
 
         player.IncreaseScore(curLogScore);
         
-        Destroy(Logs[0]);
-        Logs.RemoveAt(0);
+        Destroy(logs[0]);
+        logs.RemoveAt(0);
 
         waitingTree.transform.GetChild(0).transform.SetParent(curTree.transform);
 
         yield return new WaitForSeconds(PAUSE_DUR);
 
         //repeat if log is rotten
-        if(Logs[0].GetComponent<LogScript>().rotten)
+        if(logs[0].GetComponent<LogScript>().rotten)
         {
             StartCoroutine(TakeBottom());
         }
         //if not rotten, reset scores and refill the queue
         else
         {
-            if (Logs[0].GetComponent<LogScript>().strong)
+            if (logs[0].GetComponent<LogScript>().strong)
             {
                 initLogScore = (int)Mathf.Round(BASE_SCORE * 1.5f);
             }

@@ -5,11 +5,11 @@ using UnityEngine;
 public class BeeHiveScript : MonoBehaviour {
 
     private int strings;        //# of strings connecting the beehive to the branch
-    public GameObject branch;   //the branch the beehive is attached to
+    public BranchScript branch;   //the branch the beehive is attached to
 
 	// Use this for initialization
 	void Start () {
-        strings = 5;        //change to correct number when we know it
+        strings = 1;        //change to correct number when we know it
 	}
 	
 	// Update is called once per frame
@@ -21,11 +21,5 @@ public class BeeHiveScript : MonoBehaviour {
     public void SeperateFromBranch()
     {
         strings--;
-        if (strings <= 0)
-        {
-            branch = null;
-
-            //drop beehive here TODO
-        }
     }
 }

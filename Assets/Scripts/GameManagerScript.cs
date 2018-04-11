@@ -94,7 +94,15 @@ public class GameManagerScript : MonoBehaviour {
     //called when player swings axe
     public void SwingAxe()
     {
-        StartCoroutine(TakeBottom());
+        if (logs[0].GetComponent<LogScript>().strong)
+        {
+            logs[0].GetComponent<LogScript>().strong = false;
+        }
+
+        else if (!logs[0].GetComponent<LogScript>().strong)
+        {
+            StartCoroutine(TakeBottom());
+        }
     }
 
     //fill up tree and stored memory
@@ -110,13 +118,20 @@ public class GameManagerScript : MonoBehaviour {
             int PrefabVal = (int)Mathf.Ceil(Random.value * logPrefabs.Length - 1);
 
             GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
-
-            if(logs.Count > 0)
+            BeeHiveScript isHive = newLog.GetComponentInChildren<BeeHiveScript>();
+            if (isHive != null)
+            {
+                logFine = false;
+            }
+            
+            if (logs.Count > 0)
             {
                 //validate beehive
                 BeeHiveScript ifHive = newLog.GetComponentInChildren<BeeHiveScript>();
                 if(ifHive != null)
                 {
+                    logFine = false;
+                    
                     //dont' bother if we have less than 2 logs total
                     if (logs.Count < 2)
                     {
@@ -126,7 +141,7 @@ public class GameManagerScript : MonoBehaviour {
                     else
                     {
                         //check each branch in the log that would be directly below our beehive
-                        foreach (GameObject branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
+                        foreach (BranchScript branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
                         {
                             if (!branch.GetComponent<BranchScript>().rotten)
                             {
@@ -140,7 +155,7 @@ public class GameManagerScript : MonoBehaviour {
                         //if the log below our beehive is rotten, check the one below that too
                         if (logs[logs.Count - 2].GetComponent<LogScript>().rotten || logs[logs.Count - 1].GetComponent<LogScript>().rotten)
                         {
-                            foreach (GameObject branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
+                            foreach (BranchScript branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
                             {
                                 if (!branch.GetComponent<BranchScript>().rotten)
                                 {
@@ -196,23 +211,26 @@ public class GameManagerScript : MonoBehaviour {
         movingTree = true;
 
         //check for branches
-        foreach (GameObject branch in logs[0].GetComponent<LogScript>().branches)
+        foreach (BranchScript branch in logs[0].GetComponent<LogScript>().branches)
         {
             //if branches are on the same side, kill
-            if (branch.GetComponent<BranchScript>().rightSide == player.GetComponent<PlayerScript>().rightSide && !branch.GetComponent<BranchScript>().rotten)
+            if (branch.rightSide == player.GetComponent<PlayerScript>().rightSide && !branch.rotten)
             {
                 gameOver = true;
             }
         }
 
-        BeeHiveScript ifHive = logs[1].GetComponentInChildren<BeeHiveScript>();
-
-        //check for hive, then validate for hive
-        if (ifHive != null)
+        foreach(BranchScript branch in logs[1].GetComponent<LogScript>().branches)
         {
-            if (ifHive.branch.GetComponent<BranchScript>().rightSide == player.GetComponent<PlayerScript>().rightSide)
+            BeeHiveScript ifHive = branch.hive;
+
+            //check for hive, then validate for hive
+            if (ifHive != null)
             {
-                gameOver = true;
+                if (ifHive.branch.rightSide == player.GetComponent<PlayerScript>().rightSide)
+                {
+                    gameOver = true;
+                }
             }
         }
 

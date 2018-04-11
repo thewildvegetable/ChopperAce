@@ -6,7 +6,7 @@ public class LogScript : MonoBehaviour {
 
     public bool rotten;
     public bool strong;
-    public List<GameObject> branches;
+    public List<BranchScript> branches;
 
 	// Use this for initialization
 	void Start () {

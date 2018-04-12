@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 1
   rightSide: 0
+  hive: {fileID: 0}
 --- !u!114 &114490325620229344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   rightSide: 1
+  hive: {fileID: 0}
 --- !u!114 &114701107944488552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,10 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   strong: 0
-  type: 7
   branches:
-  - {fileID: 1792598438158160}
-  - {fileID: 1897900922180494}
+  - {fileID: 114245022878420384}
+  - {fileID: 114538869964456996}
 --- !u!114 &114853794560272650
 MonoBehaviour:
   m_ObjectHideFlags: 1

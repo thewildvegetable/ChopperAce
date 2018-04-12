@@ -60,9 +60,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   strong: 1
-  type: 14
   branches:
-  - {fileID: 1661746406379600}
+  - {fileID: 114656938119808138}
 --- !u!114 &114515924507491566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 0
   rightSide: 1
+  hive: {fileID: 0}
 --- !u!114 &114839741363822594
 MonoBehaviour:
   m_ObjectHideFlags: 1

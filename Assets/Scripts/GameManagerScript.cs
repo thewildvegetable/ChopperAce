@@ -265,6 +265,8 @@ public class GameManagerScript : MonoBehaviour {
 
             movingTree = false;
 
+            player.chop = false;
+
             Refill();
         }
     }

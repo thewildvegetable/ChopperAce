@@ -24,6 +24,7 @@ public class ChopButtonScript : MonoBehaviour {
         //set the player's side
         player.GetComponent<PlayerScript>().rightSide = this.rightSide;
         player.transform.SetParent(node.transform);
+        player.transform.localPosition = Vector3.one;
 
         //change the player to attacking
         player.GetComponent<PlayerScript>().chop = true;

@@ -62,6 +62,8 @@ public class GameManagerScript : MonoBehaviour {
         lastScoreTime = Time.time;
 
         gameOver = false;
+
+        Refill();
 	}
 	
 	// Update is called once per frame
@@ -94,6 +96,8 @@ public class GameManagerScript : MonoBehaviour {
     //called when player swings axe
     public void SwingAxe()
     {
+
+        Debug.Log("Swing Axe");
         if (logs[0].GetComponent<LogScript>().strong)
         {
             logs[0].GetComponent<LogScript>().strong = false;
@@ -102,7 +106,15 @@ public class GameManagerScript : MonoBehaviour {
         else if (!logs[0].GetComponent<LogScript>().strong)
         {
             StartCoroutine(TakeBottom());
+
+            if (logs[0].GetComponent<LogScript>().rotten)
+            {
+                Debug.Log("Swing Axe from rotten");
+                SwingAxe();
+            }
+
         }
+
     }
 
     //fill up tree and stored memory
@@ -132,41 +144,41 @@ public class GameManagerScript : MonoBehaviour {
                 {
                     logFine = false;
                     
-                    //dont' bother if we have less than 2 logs total
-                    if (logs.Count < 2)
-                    {
-                        logFine = false;
-                    }
+                    ////dont' bother if we have less than 2 logs total
+                    //if (logs.Count < 2)
+                    //{
+                    //    logFine = false;
+                    //}
                     
-                    else
-                    {
-                        //check each branch in the log that would be directly below our beehive
-                        foreach (BranchScript branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
-                        {
-                            if (!branch.GetComponent<BranchScript>().rotten)
-                            {
-                                if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
-                                {
-                                    logFine = false;
-                                }
-                            }
-                        }
+                    //else
+                    //{
+                    //    //check each branch in the log that would be directly below our beehive
+                    //    foreach (BranchScript branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
+                    //    {
+                    //        if (!branch.GetComponent<BranchScript>().rotten)
+                    //        {
+                    //            if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
+                    //            {
+                    //                logFine = false;
+                    //            }
+                    //        }
+                    //    }
 
-                        //if the log below our beehive is rotten, check the one below that too
-                        if (logs[logs.Count - 2].GetComponent<LogScript>().rotten || logs[logs.Count - 1].GetComponent<LogScript>().rotten)
-                        {
-                            foreach (BranchScript branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
-                            {
-                                if (!branch.GetComponent<BranchScript>().rotten)
-                                {
-                                    if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
-                                    {
-                                        logFine = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    //    //if the log below our beehive is rotten, check the one below that too
+                    //    if (logs[logs.Count - 2].GetComponent<LogScript>().rotten || logs[logs.Count - 1].GetComponent<LogScript>().rotten)
+                    //    {
+                    //        foreach (BranchScript branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
+                    //        {
+                    //            if (!branch.GetComponent<BranchScript>().rotten)
+                    //            {
+                    //                if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
+                    //                {
+                    //                    logFine = false;
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
 
                 //no more than 1 rotten log in a row
@@ -177,12 +189,20 @@ public class GameManagerScript : MonoBehaviour {
             }
 
             //if the new log passes validation
-            if(logFine)
+            if(!logFine)
+            {
+                i--;
+                Destroy(newLog);
+            }
+
+            //decrement i to do the loop again
+            else
             {
                 //add new log
                 logs.Add(newLog);
+                logs[i + initCount].transform.SetParent(curTree.transform);
                 //for the first bunch add to displayed panel
-                if(i + initCount < SHOWN_LOGS)
+                if (i + initCount < SHOWN_LOGS)
                 {
                     logs[i + initCount].transform.SetParent(curTree.transform);
                 }
@@ -195,12 +215,6 @@ public class GameManagerScript : MonoBehaviour {
 
                 //set local transform to preempt scaling issues
                 logs[i + initCount].transform.localScale = Vector3.one;
-            }
-
-            //decrement i to do the loop again
-            else
-            {
-                i--;
             }
         }
     }
@@ -235,22 +249,17 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         player.IncreaseScore(curLogScore);
-        
+
+        Debug.Log("Deleting bottom");
         Destroy(logs[0]);
         logs.RemoveAt(0);
 
         waitingTree.transform.GetChild(0).transform.SetParent(curTree.transform);
 
-        yield return new WaitForSeconds(PAUSE_DUR);
-
         //repeat if log is rotten
-        if(logs[0].GetComponent<LogScript>().rotten)
+        if (!logs[0].GetComponent<LogScript>().rotten)
         {
-            StartCoroutine(TakeBottom());
-        }
-        //if not rotten, reset scores and refill the queue
-        else
-        {
+            //if not rotten, reset scores and refill the queue
             if (logs[0].GetComponent<LogScript>().strong)
             {
                 initLogScore = (int)Mathf.Round(BASE_SCORE * 1.5f);
@@ -269,7 +278,7 @@ public class GameManagerScript : MonoBehaviour {
 
             Refill();
         }
-    }
 
-    
+        yield return new WaitForSeconds(0.001f);
+    }
 }

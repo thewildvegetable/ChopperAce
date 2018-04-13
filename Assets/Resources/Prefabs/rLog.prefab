@@ -42,7 +42,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotten: 1
   strong: 0
-  type: 9
   branches: []
 --- !u!114 &114821221220315822
 MonoBehaviour:
@@ -63,7 +62,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d400759c2ea197e42be52b9b8bf30be5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c83c834b3557d5c4ea7a81b54b1a2309, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

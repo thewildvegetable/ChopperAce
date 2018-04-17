@@ -10,8 +10,11 @@ public class BranchScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
-	}
+        if (!rightSide)
+        {
+            this.gameObject.transform.localScale += new Vector3(-2 * this.gameObject.transform.localScale.x, 0, 0);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {

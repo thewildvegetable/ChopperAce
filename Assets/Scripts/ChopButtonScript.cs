@@ -9,6 +9,8 @@ public class ChopButtonScript : MonoBehaviour {
     public GameManagerScript gameManager;
     public GameObject node;     //side node for the player to be moved to
 
+    public Vector3 positionOffset = new Vector3(0, 40, 0);
+
     // Use this for initialization
     void Start () {
 
@@ -24,7 +26,7 @@ public class ChopButtonScript : MonoBehaviour {
         //set the player's side
         player.GetComponent<PlayerScript>().rightSide = this.rightSide;
         player.transform.SetParent(node.transform);
-        player.transform.localPosition = Vector3.one;
+        player.transform.localPosition = positionOffset;
 
         //change the player to attacking
         player.GetComponent<PlayerScript>().chop = true;

@@ -47,7 +47,7 @@ public class GameManagerScript : MonoBehaviour {
 
     //panel for game over screen.
     public GameObject gameOverPanel;
-
+    
 	// Use this for initialization
 	void Start () {
         //create logs
@@ -130,11 +130,6 @@ public class GameManagerScript : MonoBehaviour {
             int PrefabVal = (int)Mathf.Ceil(Random.value * logPrefabs.Length - 1);
 
             GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
-            BeeHiveScript isHive = newLog.GetComponentInChildren<BeeHiveScript>();
-            if (isHive != null)
-            {
-                logFine = false;
-            }
             
             if (logs.Count > 0)
             {
@@ -142,43 +137,43 @@ public class GameManagerScript : MonoBehaviour {
                 BeeHiveScript ifHive = newLog.GetComponentInChildren<BeeHiveScript>();
                 if(ifHive != null)
                 {
-                    logFine = false;
-                    
-                    ////dont' bother if we have less than 2 logs total
-                    //if (logs.Count < 2)
-                    //{
-                    //    logFine = false;
-                    //}
-                    
-                    //else
-                    //{
-                    //    //check each branch in the log that would be directly below our beehive
-                    //    foreach (BranchScript branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
-                    //    {
-                    //        if (!branch.GetComponent<BranchScript>().rotten)
-                    //        {
-                    //            if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
-                    //            {
-                    //                logFine = false;
-                    //            }
-                    //        }
-                    //    }
+                    //logFine = false;
 
-                    //    //if the log below our beehive is rotten, check the one below that too
-                    //    if (logs[logs.Count - 2].GetComponent<LogScript>().rotten || logs[logs.Count - 1].GetComponent<LogScript>().rotten)
-                    //    {
-                    //        foreach (BranchScript branch in logs[logs.Count - 3].GetComponent<LogScript>().branches)
-                    //        {
-                    //            if (!branch.GetComponent<BranchScript>().rotten)
-                    //            {
-                    //                if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
-                    //                {
-                    //                    logFine = false;
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    //dont' bother if we have less than 2 logs total
+                    if (logs.Count < 2)
+                    {
+                        logFine = false;
+                    }
+
+                    else
+                    {
+                        //check each branch in the log that would be directly below our beehive
+                        foreach (BranchScript branch in logs[logs.Count - 1].GetComponent<LogScript>().branches)
+                        {
+                            if (!branch.GetComponent<BranchScript>().rotten)
+                            {
+                                if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
+                                {
+                                    logFine = false;
+                                }
+                            }
+                        }
+
+                        //if the log below our beehive is rotten, check the one below that too
+                        if (logs[logs.Count - 1].GetComponent<LogScript>().rotten)
+                        {
+                            foreach (BranchScript branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
+                            {
+                                if (!branch.GetComponent<BranchScript>().rotten)
+                                {
+                                    if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
+                                    {
+                                        logFine = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 //no more than 1 rotten log in a row

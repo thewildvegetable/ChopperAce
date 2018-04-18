@@ -15,6 +15,12 @@ public class GameManagerScript : MonoBehaviour {
     //base score of a non-strong log
     public const int BASE_SCORE = 100;
 
+    //track how many logs the player has cut
+    //after 10, start spawning logs with 2 branches
+    //after 20, start spawning strong logs
+    //after 30, start spawning bee hives
+    private int totalLogs;
+
     //the player
     public PlayerScript player;
 
@@ -62,6 +68,8 @@ public class GameManagerScript : MonoBehaviour {
         lastScoreTime = Time.time;
 
         gameOver = false;
+
+        totalLogs = 0;
 
         Refill();
 	}
@@ -273,6 +281,8 @@ public class GameManagerScript : MonoBehaviour {
 
             Refill();
         }
+
+        totalLogs++;
 
         yield return new WaitForSeconds(0.001f);
     }

@@ -15,6 +15,12 @@ public class PlayerScript : MonoBehaviour {
     public Image player;
     public bool chop;
 
+    //getter
+    public int Score
+    {
+        get { return score; }
+    }
+
     // Use this for initialization
     void Start () {
         score = 0;

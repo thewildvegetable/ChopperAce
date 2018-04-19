@@ -32,6 +32,8 @@ public class GameManagerScript : MonoBehaviour {
     private int curLogScore;
     //indicator for score of current log
     public Text logScoreText;
+    //indicator for score at gameOver
+    public Text finalScoreText;
     //time last log was created
     private float lastScoreTime;
 
@@ -53,6 +55,12 @@ public class GameManagerScript : MonoBehaviour {
 
     //panel for game over screen.
     public GameObject gameOverPanel;
+
+    //strike through/shatter effect for a strong log being cut
+    public GameObject shatter;
+
+    //progress bar for current log score
+    public Image progressBar;
     
 	// Use this for initialization
 	void Start () {
@@ -63,7 +71,7 @@ public class GameManagerScript : MonoBehaviour {
         };
 
         //load prefabs
-        logPrefabs = Resources.LoadAll("Prefabs");
+        logPrefabs = Resources.LoadAll("Prefabs/Logs");
         initLogScore = BASE_SCORE;
         lastScoreTime = Time.time;
 
@@ -94,12 +102,36 @@ public class GameManagerScript : MonoBehaviour {
 
         logScoreText.text = curLogScore.ToString();
 
+        progressBar.fillAmount = curLogScore / 100f;
+
         if(gameOver)
         {
+            finalScoreText.text = "Final Score: " + player.Score.ToString();
             gameOverPanel.SetActive(true);
         }
 
 	}
+
+    //called to restart the game
+    public void Restart()
+    {
+        //empty the logs
+        logs.Clear();
+
+        //load prefabs
+        lastScoreTime = Time.time;
+
+        //disable gameover
+        gameOver = false;
+        gameOverPanel.SetActive(false);
+
+        //reset player score to 0
+        player.IncreaseScore(-1 * player.Score);
+
+        totalLogs = 0;
+
+        Refill();
+    }
 
     //called when player swings axe
     public void SwingAxe()
@@ -109,10 +141,23 @@ public class GameManagerScript : MonoBehaviour {
         if (logs[0].GetComponent<LogScript>().strong)
         {
             logs[0].GetComponent<LogScript>().strong = false;
+
+            //spawn strikethrough effect
+            Instantiate(shatter, logs[0].transform.position, Quaternion.identity);
         }
 
         else if (!logs[0].GetComponent<LogScript>().strong)
         {
+            //delete all shatter effects
+            GameObject[] shatterEffect = GameObject.FindGameObjectsWithTag("Sprite");
+            if (shatterEffect.Length > 0)
+            {
+                for (int i = 0; i < shatterEffect.Length; i++)
+                {
+                    Destroy(shatterEffect[i]);
+                }
+            }
+
             StartCoroutine(TakeBottom());
 
             if (logs[0].GetComponent<LogScript>().rotten)

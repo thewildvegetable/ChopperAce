@@ -115,9 +115,6 @@ public class GameManagerScript : MonoBehaviour {
     //called to restart the game
     public void Restart()
     {
-        //empty the logs
-        logs.Clear();
-
         //load prefabs
         lastScoreTime = Time.time;
 
@@ -128,7 +125,22 @@ public class GameManagerScript : MonoBehaviour {
         //reset player score to 0
         player.IncreaseScore(-1 * player.Score);
 
+        GameObject[] shatterEffect = GameObject.FindGameObjectsWithTag("Sprite");
+        if (shatterEffect.Length > 0)
+        {
+            for (int i = 0; i < shatterEffect.Length; i++)
+            {
+                Destroy(shatterEffect[i]);
+            }
+        }
+
         totalLogs = 0;
+
+        while(logs.Count > 0)
+        {
+            Destroy(logs[0]);
+            logs.RemoveAt(0);
+        }
 
         Refill();
     }
@@ -177,12 +189,10 @@ public class GameManagerScript : MonoBehaviour {
 
         for (int i = 0; i < logs.Capacity - initCount; i++)
         {
+            //do log generation here, full-tree validation in this method
+            GameObject newLog = GenLog();
+
             bool logFine = true;
-
-            //TODO: currently all are equally likely, should implement some kind of scaling later
-            int PrefabVal = (int)Mathf.Ceil(Random.value * logPrefabs.Length - 1);
-
-            GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
             
             if (logs.Count > 0)
             {
@@ -265,6 +275,274 @@ public class GameManagerScript : MonoBehaviour {
                 logs[i + initCount].transform.localScale = Vector3.one;
             }
         }
+    }
+
+    //generate a log, handle length validation
+    private GameObject GenLog()
+    {
+        int r = (int)Mathf.Floor(Random.value * 100);
+
+        GameObject returnVal;
+
+        //GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
+        //0, 1, 4, 6, 8, 9
+        if (totalLogs <  10)
+        {
+            if( r < 25)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[0]);
+            }
+
+            else if (r < 38)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[1]);
+            }
+
+            else if (r < 54)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[4]);
+            }
+
+            else if (r < 70)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[6]);
+            }
+
+            else if (r < 86)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[8]);
+            }
+
+            else
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[9]);
+            }
+        }
+
+        //0, 1, 2, 4, 6, 7, 8, 9
+        else if (totalLogs < 20)
+        {
+            if( r < 25)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[0]);
+            }
+
+            else if (r < 36)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[1]);
+            }
+
+            else if (r < 41)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[2]);
+            }
+
+            else if (r < 52)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[4]);
+            }
+
+            else if (r < 63)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[6]);
+            }
+
+            else if (r < 68)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[7]);
+            }
+
+            else if (r < 78)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[8]);
+            }
+
+            else
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[9]);
+            }
+
+        }
+
+
+        //0, 1, 2, 4, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 18
+        else if (totalLogs < 30)
+        {
+            if (r < 15)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[0]);
+            }
+
+            else if (r < 21)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[1]);
+            }
+
+            else if (r < 29)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[2]);
+            }
+
+            else if (r < 37)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[4]);
+            }
+
+            else if (r < 49)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[6]);
+            }
+
+            else if (r < 54)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[7]);
+            }
+
+            else if (r < 61)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[8]);
+            }
+
+            else if (r < 70)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[9]);
+            }
+
+            else if (r < 76)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[10]);
+            }
+
+            else if (r < 80)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[11]);
+            }
+
+            else if (r < 84)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[12]);
+            }
+
+            else if (r < 88)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[14]);
+            }
+
+            else if (r < 92)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[16]);
+            }
+
+            else if (r < 96)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[17]);
+            }
+
+            else
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[18]);
+            }
+        }
+
+        else
+        {
+            if (r < 7)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[0]);
+            }
+
+            else if (r < 12)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[1]);
+            }
+
+            else if (r < 19)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[2]);
+            }
+
+            else if (r < 27)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[4]);
+            }
+
+            else if (r < 39)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[6]);
+            }
+
+            else if (r < 44)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[7]);
+            }
+
+            else if (r < 51)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[8]);
+            }
+
+            else if (r < 60)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[9]);
+            }
+
+            else if (r < 66)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[10]);
+            }
+
+            else if (r < 70)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[11]);
+            }
+
+            else if (r < 74)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[12]);
+            }
+
+            else if (r < 78)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[14]);
+            }
+
+            else if (r < 82)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[16]);
+            }
+
+            else if (r < 86)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[17]);
+            }
+
+            else if (r < 90) 
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[18]);
+            }
+
+            else if (r < 93)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[3]);
+            }
+
+            else if (r < 96)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[5]);
+            }
+
+            else if (r < 98)
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[13]);
+            }
+
+            else
+            {
+                returnVal = (GameObject)Instantiate(logPrefabs[15]);
+            }
+        }
+
+        return returnVal;
     }
 
     //pop bottom log from tree

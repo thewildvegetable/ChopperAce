@@ -87,7 +87,7 @@ public class GameManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!movingTree && !gameOver)
+        if (!movingTree && !gameOver && !gameEnded)
         {
             float timeDif = Time.time - (lastScoreTime + 0.25f);
 
@@ -106,11 +106,6 @@ public class GameManagerScript : MonoBehaviour {
         logScoreText.text = curLogScore.ToString();
 
         progressBar.fillAmount = curLogScore / 100f;
-
-        if(gameOver && !gameEnded)
-        {
-            EndGame();
-        }
 
 	}
 
@@ -143,6 +138,8 @@ public class GameManagerScript : MonoBehaviour {
             Destroy(logs[0]);
             logs.RemoveAt(0);
         }
+
+        totalLogs = 0;
 
         Refill();
     }
@@ -558,7 +555,7 @@ public class GameManagerScript : MonoBehaviour {
             //if branches are on the same side, kill
             if (branch.rightSide == player.GetComponent<PlayerScript>().rightSide && !branch.rotten)
             {
-                gameOver = true;
+                EndGame();
             }
         }
 
@@ -571,7 +568,7 @@ public class GameManagerScript : MonoBehaviour {
             {
                 if (ifHive.branch.rightSide == player.GetComponent<PlayerScript>().rightSide)
                 {
-                    gameOver = true;
+                    EndGame();
                 }
             }
         }

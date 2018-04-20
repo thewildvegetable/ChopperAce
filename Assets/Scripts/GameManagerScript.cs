@@ -11,9 +11,11 @@ public class GameManagerScript : MonoBehaviour {
     //how many logs are being displayed on the screen
     public const int SHOWN_LOGS = 5;
     //how long we pause to move logs down
-    public const float PAUSE_DUR = 0.2f;
+    public const float PAUSE_DUR = 0.001f;
     //base score of a non-strong log
     public const int BASE_SCORE = 100;
+    //how many logs are chopped before a difficulty increase
+    public const int DELTA_DIFF = 20;
 
     //track how many logs the player has cut
     //after 10, start spawning logs with 2 branches
@@ -285,7 +287,7 @@ public class GameManagerScript : MonoBehaviour {
 
         //GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
         //0, 1, 4, 6, 8, 9
-        if (totalLogs <  10)
+        if (totalLogs <  DELTA_DIFF)
         {
             if( r < 25)
             {
@@ -319,7 +321,7 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         //0, 1, 2, 4, 6, 7, 8, 9
-        else if (totalLogs < 20)
+        else if (totalLogs < DELTA_DIFF * 2)
         {
             if( r < 25)
             {
@@ -365,7 +367,7 @@ public class GameManagerScript : MonoBehaviour {
 
 
         //0, 1, 2, 4, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 18
-        else if (totalLogs < 30)
+        else if (totalLogs < DELTA_DIFF * 3)
         {
             if (r < 15)
             {
@@ -606,14 +608,14 @@ public class GameManagerScript : MonoBehaviour {
 
         totalLogs++;
 
-        yield return new WaitForSeconds(0.001f);
+        yield return new WaitForSeconds(PAUSE_DUR);
     }
 
     private void EndGame()
     {
         gameEnded = true;
 
-        finalScoreText.text = "Final Score: " + player.Score.ToString();
+        finalScoreText.text += player.Score.ToString();
         gameOverPanel.SetActive(true);
 
         PlayerPrefs.SetInt("curHS", player.Score);

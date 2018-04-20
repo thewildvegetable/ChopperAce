@@ -39,6 +39,8 @@ public class GameManagerScript : MonoBehaviour {
 
     //is the game over?
     private bool gameOver;
+    //only calls end game method once
+    private bool gameEnded;
 
     //pause time counting while the tree is being moved
     private bool movingTree = false;
@@ -76,6 +78,7 @@ public class GameManagerScript : MonoBehaviour {
         lastScoreTime = Time.time;
 
         gameOver = false;
+        gameEnded = false;
 
         totalLogs = 0;
 
@@ -104,10 +107,9 @@ public class GameManagerScript : MonoBehaviour {
 
         progressBar.fillAmount = curLogScore / 100f;
 
-        if(gameOver)
+        if(gameOver && !gameEnded)
         {
-            finalScoreText.text = "Final Score: " + player.Score.ToString();
-            gameOverPanel.SetActive(true);
+            EndGame();
         }
 
 	}
@@ -608,5 +610,16 @@ public class GameManagerScript : MonoBehaviour {
         totalLogs++;
 
         yield return new WaitForSeconds(0.001f);
+    }
+
+    private void EndGame()
+    {
+        gameEnded = true;
+
+        finalScoreText.text = "Final Score: " + player.Score.ToString();
+        gameOverPanel.SetActive(true);
+
+        PlayerPrefs.SetInt("curHS", player.Score);
+        PlayerPrefs.Save();
     }
 }

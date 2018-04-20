@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TransferScene : MonoBehaviour {
 
-    public enum ToScene { MainMenu,Game,Credits,Options};
+    public enum ToScene { MainMenu,Game,Credits,Options, HiScore};
     public ToScene sceneTarget;
     private string targetString;
 
@@ -32,6 +32,11 @@ public class TransferScene : MonoBehaviour {
             case ToScene.Options:
                 {
                     targetString = "Options";
+                    break;
+                }
+            case ToScene.HiScore:
+                {
+                    targetString = "HighScore";
                     break;
                 }
 

@@ -16,6 +16,9 @@ public class GameManagerScript : MonoBehaviour {
     //how many logs are chopped before a difficulty increase
     public const int DELTA_DIFF = 20;
 
+    public ChopButtonScript leftButton;
+    public ChopButtonScript rightButton;
+
     //track how many logs the player has cut
     //after 10, start spawning logs with 2 branches
     //after 20, start spawning strong logs
@@ -108,10 +111,14 @@ public class GameManagerScript : MonoBehaviour {
                 curLogScore = 0;
             }
 
-            if(Input.GetKeyDown("left") || Input.GetKeyDown("right"))
+            if(Input.GetKeyDown("left"))
             {
-                player.rightSide = Input.GetKeyDown("right");
-                SwingAxe();
+                leftButton.OnClick();
+            }
+
+            else if(Input.GetKeyDown("right"))
+            {
+                rightButton.OnClick();
             }
         }
 

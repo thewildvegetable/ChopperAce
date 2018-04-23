@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour {
     //constants
@@ -65,6 +64,11 @@ public class GameManagerScript : MonoBehaviour {
 
     //progress bar for current log score
     public Image progressBar;
+
+    private int[] diffAProg = { 25, 38, -1, -1, 54, -1, 70, -1, 86, 101, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    private int[] diffBProg = { 25, 36, -1, -1, 41, -1, 52, 63, 68, 78, 101, -1, -1, -1, -1, -1, -1, -1, -1 };
+    private int[] diffCProg = { 15, 21, 29, -1, 37, -1, 49, 54, 61, 70, 76, 80, 84, -1, 88, -1, 92, 96, 101 };
+    private int[] diffDProg = { 7, 12, 19, 22, 30, 33, 45, 50, 57, 66, 72, 76, 80, 82, 86, 88, 92, 96, 101 };
     
 	// Use this for initialization
 	void Start () {
@@ -102,6 +106,12 @@ public class GameManagerScript : MonoBehaviour {
             if(curLogScore < 0)
             {
                 curLogScore = 0;
+            }
+
+            if(Input.GetKeyDown("left") || Input.GetKeyDown("right"))
+            {
+                player.rightSide = Input.GetKeyDown("right");
+                SwingAxe();
             }
         }
 
@@ -283,263 +293,62 @@ public class GameManagerScript : MonoBehaviour {
     {
         int r = (int)Mathf.Floor(Random.value * 100);
 
-        GameObject returnVal;
+        GameObject returnVal = new GameObject();
 
         //GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
         //0, 1, 4, 6, 8, 9
         if (totalLogs <  DELTA_DIFF)
         {
-            if( r < 25)
+            for(int i = 0; i < diffAProg.Length; i++)
             {
-                returnVal = (GameObject)Instantiate(logPrefabs[0]);
-            }
-
-            else if (r < 38)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[1]);
-            }
-
-            else if (r < 54)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[4]);
-            }
-
-            else if (r < 70)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[6]);
-            }
-
-            else if (r < 86)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[8]);
-            }
-
-            else
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[9]);
+                if(r < diffAProg[i])
+                {
+                    Destroy(returnVal);
+                    returnVal = (GameObject)Instantiate(logPrefabs[i]);
+                    break;
+                }
             }
         }
 
         //0, 1, 2, 4, 6, 7, 8, 9
         else if (totalLogs < DELTA_DIFF * 2)
         {
-            if( r < 25)
+            for(int i = 0; i < diffBProg.Length; i++)
             {
-                returnVal = (GameObject)Instantiate(logPrefabs[0]);
+                if(r < diffBProg[i])
+                {
+                    Destroy(returnVal);
+                    returnVal = (GameObject)Instantiate(logPrefabs[i]);
+                    break;
+                }
             }
-
-            else if (r < 36)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[1]);
-            }
-
-            else if (r < 41)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[2]);
-            }
-
-            else if (r < 52)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[4]);
-            }
-
-            else if (r < 63)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[6]);
-            }
-
-            else if (r < 68)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[7]);
-            }
-
-            else if (r < 78)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[8]);
-            }
-
-            else
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[9]);
-            }
-
         }
 
 
         //0, 1, 2, 4, 6, 7, 8, 9, 10, 11, 12, 14, 16, 17, 18
         else if (totalLogs < DELTA_DIFF * 3)
         {
-            if (r < 15)
+            for (int i = 0; i < diffCProg.Length; i++)
             {
-                returnVal = (GameObject)Instantiate(logPrefabs[0]);
-            }
-
-            else if (r < 21)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[1]);
-            }
-
-            else if (r < 29)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[2]);
-            }
-
-            else if (r < 37)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[4]);
-            }
-
-            else if (r < 49)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[6]);
-            }
-
-            else if (r < 54)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[7]);
-            }
-
-            else if (r < 61)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[8]);
-            }
-
-            else if (r < 70)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[9]);
-            }
-
-            else if (r < 76)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[10]);
-            }
-
-            else if (r < 80)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[11]);
-            }
-
-            else if (r < 84)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[12]);
-            }
-
-            else if (r < 88)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[14]);
-            }
-
-            else if (r < 92)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[16]);
-            }
-
-            else if (r < 96)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[17]);
-            }
-
-            else
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[18]);
+                if (r < diffCProg[i])
+                {
+                    Destroy(returnVal);
+                    returnVal = (GameObject)Instantiate(logPrefabs[i]);
+                    break;
+                }
             }
         }
 
         else
         {
-            if (r < 7)
+            for (int i = 0; i < diffDProg.Length; i++)
             {
-                returnVal = (GameObject)Instantiate(logPrefabs[0]);
-            }
-
-            else if (r < 12)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[1]);
-            }
-
-            else if (r < 19)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[2]);
-            }
-
-            else if (r < 27)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[4]);
-            }
-
-            else if (r < 39)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[6]);
-            }
-
-            else if (r < 44)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[7]);
-            }
-
-            else if (r < 51)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[8]);
-            }
-
-            else if (r < 60)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[9]);
-            }
-
-            else if (r < 66)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[10]);
-            }
-
-            else if (r < 70)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[11]);
-            }
-
-            else if (r < 74)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[12]);
-            }
-
-            else if (r < 78)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[14]);
-            }
-
-            else if (r < 82)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[16]);
-            }
-
-            else if (r < 86)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[17]);
-            }
-
-            else if (r < 90) 
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[18]);
-            }
-
-            else if (r < 93)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[3]);
-            }
-
-            else if (r < 96)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[5]);
-            }
-
-            else if (r < 98)
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[13]);
-            }
-
-            else
-            {
-                returnVal = (GameObject)Instantiate(logPrefabs[15]);
+                if (r < diffDProg[i])
+                {
+                    Destroy(returnVal);
+                    returnVal = (GameObject)Instantiate(logPrefabs[i]);
+                    break;
+                }
             }
         }
 

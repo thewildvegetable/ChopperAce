@@ -133,10 +133,13 @@ public class GameManagerScript : MonoBehaviour {
 
         //disable gameover
         gameOverPanel.SetActive(false);
+        finalScoreText.text = "";
+
         gameEnded = false;
 
         //reset player score to 0
         player.IncreaseScore(-1 * player.Score);
+
 
         GameObject[] shatterEffect = GameObject.FindGameObjectsWithTag("Sprite");
         if (shatterEffect.Length > 0)

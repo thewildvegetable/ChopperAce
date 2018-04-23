@@ -386,6 +386,9 @@ public class GameManagerScript : MonoBehaviour {
             {
                 if (ifHive.branch.rightSide == player.GetComponent<PlayerScript>().rightSide)
                 {
+                    //make beehive fall
+                    ifHive.SeperateFromBranch();
+                    yield return new WaitForSeconds(2.0f);
                     EndGame();
                 }
             }

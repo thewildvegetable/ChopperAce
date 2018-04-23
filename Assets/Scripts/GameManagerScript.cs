@@ -41,8 +41,6 @@ public class GameManagerScript : MonoBehaviour {
     //time last log was created
     private float lastScoreTime;
 
-    //is the game over?
-    private bool gameOver;
     //only calls end game method once
     private bool gameEnded;
 
@@ -86,7 +84,6 @@ public class GameManagerScript : MonoBehaviour {
         initLogScore = BASE_SCORE;
         lastScoreTime = Time.time;
 
-        gameOver = false;
         gameEnded = false;
 
         totalLogs = 0;
@@ -96,7 +93,7 @@ public class GameManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!movingTree && !gameOver && !gameEnded)
+        if (!movingTree && !gameEnded)
         {
             float timeDif = Time.time - (lastScoreTime + 0.25f);
 
@@ -135,8 +132,8 @@ public class GameManagerScript : MonoBehaviour {
         lastScoreTime = Time.time;
 
         //disable gameover
-        gameOver = false;
         gameOverPanel.SetActive(false);
+        gameEnded = false;
 
         //reset player score to 0
         player.IncreaseScore(-1 * player.Score);

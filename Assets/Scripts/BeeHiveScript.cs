@@ -14,7 +14,12 @@ public class BeeHiveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (strings <= 0)
+        {
+            this.gameObject.transform.Translate(new Vector3(0, 1, 0));
+
+            //if position is FIDN PLAYER'S POSITION then particle effect
+        }
 	}
 
     //remove a string holdign the beehive, separate from branch if nothing holding it

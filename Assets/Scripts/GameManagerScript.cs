@@ -108,12 +108,12 @@ public class GameManagerScript : MonoBehaviour {
                 curLogScore = 0;
             }
 
-            if(Input.GetKeyDown("left"))
+            if(Input.GetKeyDown("left") || Input.GetKeyDown("a"))
             {
                 leftButton.OnClick();
             }
 
-            else if(Input.GetKeyDown("right"))
+            else if(Input.GetKeyDown("right") || Input.GetKeyDown("d"))
             {
                 rightButton.OnClick();
             }

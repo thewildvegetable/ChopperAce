@@ -43,7 +43,10 @@ public class HighScoreManager : MonoBehaviour {
             {
                 if(PlayerPrefs.GetInt("score" + iterator.ToString(), -1) == -1)
                 {
-                    scores.Add(new SingleScore(newHS, newName));
+                    if (scores.Count < 5)
+                    {
+                        scores.Add(new SingleScore(newHS, newName));
+                    }
                     validSlot = true;
                     PlayerPrefs.SetInt("score" + iterator.ToString(), newHS);
                     PlayerPrefs.SetString("name" + iterator.ToString(), newName);
@@ -53,7 +56,11 @@ public class HighScoreManager : MonoBehaviour {
 
                 else
                 {
-                    scores.Add(new SingleScore(PlayerPrefs.GetInt("score" + iterator.ToString()), PlayerPrefs.GetString("name" + iterator.ToString())));
+                    if (scores.Count < 5)
+                    {
+                        scores.Add(new SingleScore(PlayerPrefs.GetInt("score" + iterator.ToString()), PlayerPrefs.GetString("name" + iterator.ToString())));
+                    }
+
                     iterator++;
                 }
             }

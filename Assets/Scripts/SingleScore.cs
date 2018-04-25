@@ -18,7 +18,7 @@ public class SingleScore : MonoBehaviour {
         return score;
     }
 
-    public int GetScoreName()
+    public string GetScoreName()
     {
         return scoreName;
     }

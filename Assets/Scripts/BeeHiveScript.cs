@@ -16,7 +16,7 @@ public class BeeHiveScript : MonoBehaviour {
 	void Update () {
 		if (strings <= 0)
         {
-            this.gameObject.transform.Translate(new Vector3(0, 1, 0));
+            this.gameObject.transform.Translate(new Vector3(0, -0.5f, 0));
 
             //if position is FIDN PLAYER'S POSITION then particle effect
         }

@@ -218,16 +218,7 @@ public class GameManagerScript : MonoBehaviour {
                 BeeHiveScript ifHive = newLog.GetComponentInChildren<BeeHiveScript>();
                 if(ifHive != null)
                 {
-                    //logFine = false;
-
-                    //dont' bother if we have less than 2 logs total
-                    if (logs.Count < 2)
-                    {
-                        logFine = false;
-                    }
-
-                    else
-                    {
+                                        {
                         //check each branch in the log that would be directly below our beehive
                         foreach (BranchScript branch in logs[logs.Count - 1].GetComponent<LogScript>().branches)
                         {
@@ -302,13 +293,12 @@ public class GameManagerScript : MonoBehaviour {
 
         GameObject returnVal = new GameObject();
 
-        //GameObject newLog = (GameObject)Instantiate(logPrefabs[PrefabVal]);
         //0, 1, 4, 6, 8, 9
-        if (totalLogs <  DELTA_DIFF)
+        if (totalLogs < DELTA_DIFF)
         {
-            for(int i = 0; i < diffAProg.Length; i++)
+            for (int i = 0; i < diffAProg.Length; i++)
             {
-                if(r < diffAProg[i])
+                if (r < diffAProg[i])
                 {
                     Destroy(returnVal);
                     returnVal = (GameObject)Instantiate(logPrefabs[i]);
@@ -320,9 +310,9 @@ public class GameManagerScript : MonoBehaviour {
         //0, 1, 2, 4, 6, 7, 8, 9
         else if (totalLogs < DELTA_DIFF * 2)
         {
-            for(int i = 0; i < diffBProg.Length; i++)
+            for (int i = 0; i < diffBProg.Length; i++)
             {
-                if(r < diffBProg[i])
+                if (r < diffBProg[i])
                 {
                     Destroy(returnVal);
                     returnVal = (GameObject)Instantiate(logPrefabs[i]);
@@ -384,11 +374,11 @@ public class GameManagerScript : MonoBehaviour {
             //check for hive, then validate for hive
             if (ifHive != null)
             {
+                //make beehive fall
+                ifHive.SeperateFromBranch();
+                yield return new WaitForSeconds(0.5f);
                 if (ifHive.branch.rightSide == player.GetComponent<PlayerScript>().rightSide)
                 {
-                    //make beehive fall
-                    ifHive.SeperateFromBranch();
-                    yield return new WaitForSeconds(2.0f);
                     EndGame();
                 }
             }

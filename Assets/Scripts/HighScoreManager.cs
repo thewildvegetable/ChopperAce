@@ -10,6 +10,9 @@ public class HighScoreManager : MonoBehaviour {
     public InputField sessionName;
     public Text textScores;
 
+    public List<SingleScore> scores;
+    public List<SingleScore> sortedScores;
+
     //the new score from the current session
     private int newHS;
 
@@ -40,6 +43,7 @@ public class HighScoreManager : MonoBehaviour {
             {
                 if(PlayerPrefs.GetInt("score" + iterator.ToString(), -1) == -1)
                 {
+                    scores.Add(new SingleScore(newHS, newName));
                     validSlot = true;
                     PlayerPrefs.SetInt("score" + iterator.ToString(), newHS);
                     PlayerPrefs.SetString("name" + iterator.ToString(), newName);
@@ -49,40 +53,52 @@ public class HighScoreManager : MonoBehaviour {
 
                 else
                 {
+                    scores.Add(new SingleScore(PlayerPrefs.GetInt("score" + iterator.ToString()), PlayerPrefs.GetString("name" + iterator.ToString())));
                     iterator++;
                 }
             }
 
+            SortScores();
             ScoreBoard();
+        }
+    }
+
+    private void SortScores()
+    {
+        int initCount = scores.Count;
+
+        for (int i = 0; i < initCount; i++)
+        {
+            int highInd = 0;
+
+            for (int c = 0; c < scores.Count; c++)
+            {
+                if (scores[c].GetScore() > scores[highInd].GetScore())
+                {
+                    highInd = c;
+                }
+            }
+
+            sortedScores.Add(scores[highInd]);
+            scores.RemoveAt(highInd);
         }
     }
 
     //loads playerPrefs to fill the scoreboard
     private void ScoreBoard()
     {
-        int iterator = 0;
-        bool moreScores = true;
-
         //loop through playerprefs, adding a new line for each pref stored, until you run out of new ones.
-        while(moreScores)
+        foreach(SingleScore score in sortedScores)
         {
             string newLine = "";
 
-            if(PlayerPrefs.GetInt("score" + iterator.ToString(), -1) != -1)
-            {
-                newLine += PlayerPrefs.GetString("name" + iterator.ToString());
-                newLine += ": ";
-                newLine += PlayerPrefs.GetInt("score" + iterator.ToString());
-                newLine += "\n";
+            newLine += score.GetScoreName();
+            newLine += ": ";
+            newLine += score.GetScore();
+            newLine += "\n";
 
-                textScores.text += newLine;
-                iterator++;
-            }
-
-            else
-            {
-                moreScores = false;
-            }
+            textScores.text += newLine;
+            
         }
     }
 

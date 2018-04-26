@@ -166,6 +166,15 @@ public class GameManagerScript : MonoBehaviour {
     //called when player swings axe
     public void SwingAxe()
     {
+        //destroy every particle system
+        GameObject[] particles = GameObject.FindGameObjectsWithTag("Particle");
+        if (particles.Length > 0)
+        {
+            for (int i = particles.Length - 1; i >= 0; i--)
+            {
+                Destroy(particles[i]);
+            }
+        }
 
         Debug.Log("Swing Axe");
         if (logs[0].GetComponent<LogScript>().strong)
@@ -357,6 +366,16 @@ public class GameManagerScript : MonoBehaviour {
     {
         movingTree = true;
 
+        //spawn particle effect
+        if (logs[0].GetComponent<LogScript>().rotten)
+        {
+            ParticleManager.instance.generateParticles("rotten", logs[0].transform);
+        }
+        else
+        {
+            ParticleManager.instance.generateParticles("regular", logs[0].transform);
+        }
+
         //check for branches
         foreach (BranchScript branch in logs[0].GetComponent<LogScript>().branches)
         {
@@ -385,6 +404,16 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         player.IncreaseScore(curLogScore);
+
+        //check if there are any rotten branches on this log
+        foreach (BranchScript branch in logs[0].GetComponent<LogScript>().branches)
+        {
+            //spawn rotten particle effect on the branch
+            if (branch.rotten)
+            {
+                ParticleManager.instance.generateParticles("rotten", branch.transform);
+            }
+        }
 
         Debug.Log("Deleting bottom");
         Destroy(logs[0]);

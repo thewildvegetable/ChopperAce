@@ -96,11 +96,16 @@ public class GameManagerScript : MonoBehaviour {
         if (!movingTree && !gameEnded)
         {
             float timeDif = Time.time - (lastScoreTime + 0.25f);
+            progressBar.fillAmount = curLogScore / 100f;
 
             if (timeDif > 0)
             {
                 deltaScore = (int)Mathf.Floor(timeDif * 100);
                 curLogScore = initLogScore - deltaScore;
+                if(curLogScore <= 0)
+                {
+                    SwingAxe();
+                }
             }
 
             if(curLogScore < 0)
@@ -121,7 +126,6 @@ public class GameManagerScript : MonoBehaviour {
 
         logScoreText.text = curLogScore.ToString();
 
-        progressBar.fillAmount = curLogScore / 100f;
 
 	}
 

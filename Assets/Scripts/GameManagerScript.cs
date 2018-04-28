@@ -409,16 +409,6 @@ public class GameManagerScript : MonoBehaviour {
 
         player.IncreaseScore(curLogScore);
 
-        //check if there are any rotten branches on this log
-        foreach (BranchScript branch in logs[0].GetComponent<LogScript>().branches)
-        {
-            //spawn rotten particle effect on the branch
-            if (branch.rotten)
-            {
-                ParticleManager.instance.generateParticles("rotten", branch.transform);
-            }
-        }
-
         Debug.Log("Deleting bottom");
         Destroy(logs[0]);
         logs.RemoveAt(0);

@@ -231,7 +231,7 @@ public class GameManagerScript : MonoBehaviour {
                 BeeHiveScript ifHive = newLog.GetComponentInChildren<BeeHiveScript>();
                 if(ifHive != null)
                 {
-                                        {
+                    {
                         //check each branch in the log that would be directly below our beehive
                         foreach (BranchScript branch in logs[logs.Count - 1].GetComponent<LogScript>().branches)
                         {
@@ -247,16 +247,7 @@ public class GameManagerScript : MonoBehaviour {
                         //if the log below our beehive is rotten, check the one below that too
                         if (logs[logs.Count - 1].GetComponent<LogScript>().rotten)
                         {
-                            foreach (BranchScript branch in logs[logs.Count - 2].GetComponent<LogScript>().branches)
-                            {
-                                if (!branch.GetComponent<BranchScript>().rotten)
-                                {
-                                    if (ifHive.branch.GetComponent<BranchScript>().rightSide != branch.GetComponent<BranchScript>().rightSide)
-                                    {
-                                        logFine = false;
-                                    }
-                                }
-                            }
+                            logFine = false;
                         }
                     }
                 }
@@ -415,6 +406,8 @@ public class GameManagerScript : MonoBehaviour {
 
         waitingTree.transform.GetChild(0).transform.SetParent(curTree.transform);
 
+        yield return new WaitForSeconds(PAUSE_DUR);
+
         //repeat if log is rotten
         if (!logs[0].GetComponent<LogScript>().rotten)
         {
@@ -439,8 +432,6 @@ public class GameManagerScript : MonoBehaviour {
         }
 
         totalLogs++;
-
-        yield return new WaitForSeconds(PAUSE_DUR);
     }
 
     private void EndGame()

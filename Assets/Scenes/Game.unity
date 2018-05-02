@@ -2898,10 +2898,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightSide: 1
   scoreText: {fileID: 1516336534}
-  leftSprite: {fileID: 21300000, guid: be89068d0d3f2d94899457f5b842f53f, type: 3}
-  leftAttackSprite: {fileID: 21300000, guid: 010d05785c8fb2142b14df2dc5b61183, type: 3}
-  rightSprite: {fileID: 21300000, guid: a989f3852ce95fa439c720b07f883757, type: 3}
-  rightAttackSprite: {fileID: 21300000, guid: 982de142d33e49a488e63f4dc339f904, type: 3}
+  leftSprite: {fileID: 21300000, guid: 9076a7762e579f24fbb7270ecb74dfad, type: 3}
+  leftAttackSprite: {fileID: 21300000, guid: c227b8f5238ac8340a054dd17cdf81c4, type: 3}
+  rightSprite: {fileID: 21300000, guid: 52d964c2e47fbc5428c5e95dc029291f, type: 3}
+  rightAttackSprite: {fileID: 21300000, guid: f0d6507645b4b8c438b2731b6d1fe7d5, type: 3}
   player: {fileID: 2100447417}
   chop: 0
 --- !u!114 &2100447417

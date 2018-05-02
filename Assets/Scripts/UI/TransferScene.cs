@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TransferScene : MonoBehaviour {
 
-    public enum ToScene { MainMenu,Game,Credits,Options, HiScore};
+    public enum ToScene { MainMenu,Game,Credits,Instructions,HiScore};
     public ToScene sceneTarget;
     private string targetString;
 
@@ -29,9 +29,9 @@ public class TransferScene : MonoBehaviour {
                     targetString = "Credits";
                     break;
                 }
-            case ToScene.Options:
+            case ToScene.Instructions:
                 {
-                    targetString = "Options";
+                    targetString = "Instructions";
                     break;
                 }
             case ToScene.HiScore:

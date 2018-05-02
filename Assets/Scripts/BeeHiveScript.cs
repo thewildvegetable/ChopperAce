@@ -25,6 +25,7 @@ public class BeeHiveScript : MonoBehaviour {
             {
                 ground = true;
                 ParticleManager.instance.generateParticles("bee", this.gameObject.transform);
+                SoundManager.instance.PlayBees();
             }
         }
 	}

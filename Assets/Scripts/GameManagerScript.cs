@@ -369,6 +369,7 @@ public class GameManagerScript : MonoBehaviour {
         else
         {
             ParticleManager.instance.generateParticles("regular", logs[0].transform);
+            SoundManager.instance.PlayChop();
         }
 
         //check for branches
@@ -377,6 +378,8 @@ public class GameManagerScript : MonoBehaviour {
             //if branches are on the same side, kill
             if (branch.rightSide == player.GetComponent<PlayerScript>().rightSide && !branch.rotten)
             {
+                yield return new WaitForSeconds(.75f);
+                SoundManager.instance.PlayOuch();
                 EndGame();
             }
         }
@@ -393,6 +396,8 @@ public class GameManagerScript : MonoBehaviour {
                 yield return new WaitForSeconds(0.5f);
                 if (ifHive.branch.rightSide == player.GetComponent<PlayerScript>().rightSide)
                 {
+                    yield return new WaitForSeconds(.75f);
+                    SoundManager.instance.PlayOuch();
                     EndGame();
                 }
             }
